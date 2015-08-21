@@ -10,11 +10,14 @@
 (defvar my-packages
   '(solarized-theme
     smex
+    neotree
     yaml-mode))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+(global-set-key [f8] 'neotree-toggle)
 
 (load-theme 'solarized-dark t)
 
