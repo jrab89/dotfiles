@@ -9,6 +9,7 @@
 
 (defvar my-packages
   '(solarized-theme
+    git-gutter
     smex
     neotree
     yaml-mode))
@@ -16,6 +17,9 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+(global-git-gutter-mode +1)
+(custom-set-variables '(git-gutter:update-interval 2))
 
 (global-set-key [f8] 'neotree-toggle)
 
