@@ -68,6 +68,9 @@
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
+(global-auto-revert-mode t) ;; Refresh buffers when files change on disk
+(desktop-save-mode t) ;; Save Emacs state between sessions
+
 ;;------------------------------------------------------------------------------
 ;; Navigation
 

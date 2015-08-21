@@ -3,3 +3,6 @@ places
 backups
 auto-save-list
 recentf
+.emacs.desktop
+.emacs.desktop.lock
+ido.last
