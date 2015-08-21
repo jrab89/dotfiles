@@ -72,3 +72,10 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+(require 'whitespace)
+(setq-default show-trailing-whitespace t)
+(defun toggle-show-trailing-whitespace ()
+  "Toggle show-trailing-whitespace"
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+
