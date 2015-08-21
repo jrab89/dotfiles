@@ -1,3 +1,31 @@
+;; Packages
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/") ))
+
+(require 'package)
+(setq package-enable-at-startup nil)
+(package-initialize)
+(package-refresh-contents)
+
+(defvar my-packages
+  '(solarized-theme
+    smex
+    yaml-mode))
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
+(load-theme 'solarized-dark t)
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\.yml$" . yaml-mode))
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-x C-M") 'smex-major-mode-commands)
+
 ;; UI
 (setq create-lockfiles nil) ;; No need for ~ files when editing
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
@@ -27,22 +55,6 @@
 (setq ido-enable-flex-matching t) ;; Allow partial matches, e.g. "tl" will match "Tyrion Lannister"
 (setq ido-use-virtual-buffers t) ;; Includes buffer names of recently open files, even if they're not open
 
-;; packages
-(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
-(add-to-list 'custom-theme-load-path "/usr/local/Cellar/solarized-emacs/HEAD/share/emacs/site-lisp/solarized")
-(load-theme 'solarized t)
-(setq solarized-termcolors 256)
-
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\.yml$" . yaml-mode))
-
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-x C-M") 'smex-major-mode-commands)
-
 ;; "When several buffers visit identically-named files,
 ;; Emacs must give the buffers distinct names. The usual method
 ;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
@@ -52,3 +64,4 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
