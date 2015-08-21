@@ -1,4 +1,6 @@
+;;------------------------------------------------------------------------------
 ;; Packages
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/") ))
 
@@ -33,7 +35,9 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-x C-M") 'smex-major-mode-commands)
 
+;;------------------------------------------------------------------------------
 ;; UI
+
 (setq create-lockfiles nil) ;; No need for ~ files when editing
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
 (menu-bar-mode -1) ;; Turn off menu bar at top of frame
@@ -57,7 +61,16 @@
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 (global-set-key (kbd "C-;") 'toggle-comment-on-line)
 
+(require 'whitespace)
+(setq-default show-trailing-whitespace t)
+(defun toggle-show-trailing-whitespace ()
+  "Toggle show-trailing-whitespace"
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+
+;;------------------------------------------------------------------------------
 ;; Navigation
+
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; Allow partial matches, e.g. "tl" will match "Tyrion Lannister"
 (setq ido-use-virtual-buffers t) ;; Includes buffer names of recently open files, even if they're not open
@@ -72,10 +85,12 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-(require 'whitespace)
-(setq-default show-trailing-whitespace t)
-(defun toggle-show-trailing-whitespace ()
-  "Toggle show-trailing-whitespace"
+;;------------------------------------------------------------------------------
+;; Custom functions
+
+;; This is the greatest and best function ever.
+(defun reload ()
+  "Reloads the .emacs file"
   (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+  (load-file "~/.emacs.d/init.el") )
 
