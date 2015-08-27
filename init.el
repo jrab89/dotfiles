@@ -15,6 +15,7 @@
     smex
     neotree
     find-file-in-project
+    auto-highlight-symbol
     web-mode
     yaml-mode))
 
@@ -22,7 +23,11 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+(setq ahs-idle-interval 0.2)
+(global-auto-highlight-symbol-mode)
+
 (global-git-gutter-mode +1)
+(git-gutter:linum-setup)
 (custom-set-variables '(git-gutter:update-interval 2))
 
 (global-set-key [f8] 'neotree-toggle)
@@ -113,5 +118,5 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))x
+(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
 
