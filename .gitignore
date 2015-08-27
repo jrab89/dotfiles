@@ -6,3 +6,5 @@ recentf
 .emacs.desktop
 .emacs.desktop.lock
 ido.last
+smex-items
+
