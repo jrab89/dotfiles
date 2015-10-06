@@ -21,9 +21,9 @@
     haml-mode
     windresize
     go-mode
-	auto-complete
-	go-autocomplete
-	feature-mode
+    auto-complete
+    go-autocomplete
+    feature-mode
     zygospore))
 
 (dolist (p my-packages)
