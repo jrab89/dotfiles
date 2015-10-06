@@ -18,11 +18,29 @@
     auto-highlight-symbol
     web-mode
     yaml-mode
+    haml-mode
+    windresize
+    go-mode
+	auto-complete
+	go-autocomplete
+	feature-mode
     zygospore))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+(add-to-list 'auto-mode-alist '("\.yml$" . feature-mdoe))
+
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(ac-config-default)
+
+(require 'go-mode)
+(add-hook 'before-save-hook 'gofmt-before-save)
+
+(require 'haml-mode)
+(add-to-list 'auto-mode-alist '("\\.haml\\'" . haml-mode))
 
 (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows)
 
@@ -34,8 +52,10 @@
 (custom-set-variables '(git-gutter:update-interval 2))
 
 (global-set-key [f8] 'neotree-toggle)
+;; make the tree refresh on an interval instead of pressing 'g'?
 
 (load-theme 'solarized-dark t)
+;; (load-theme 'solarized-light t)
 
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\.yml$" . yaml-mode))
@@ -55,6 +75,10 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.xml\\'" . web-mode))
+(setq web-mode-enable-current-element-highlight t)
+(eval-after-load "web-mode" ;; M-x list-colors-display !!!
+  '(set-face-background 'web-mode-current-element-highlight-face "light green"))
 
 ;;------------------------------------------------------------------------------
 ;; UI
@@ -70,6 +94,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode 1)
 (setq show-paren-delay 0)
+(setq default-tab-width 4)
 
 (require 'saveplace)
 (setq-default save-place t)
@@ -122,4 +147,17 @@
   "Reloads the .emacs file"
   (interactive)
   (load-file "~/.emacs.d/init.el") )
+
+;; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+;; So Emacs gets the PATH environment
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
 
