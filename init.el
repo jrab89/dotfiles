@@ -1,8 +1,5 @@
-;;------------------------------------------------------------------------------
-;; Packages
-
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/") ))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages")
+                         ("melpa" . "http://melpa.milkbox.net/packages")))
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -13,7 +10,12 @@
   '(solarized-theme
     git-gutter
     smex
+	terraform-mode
+	buffer-move
     neotree
+	exec-path-from-shell
+    clojure-mode
+    cider
     find-file-in-project
     auto-highlight-symbol
     web-mode
@@ -24,41 +26,20 @@
     auto-complete
     go-autocomplete
     feature-mode
+    flycheck
+    rvm
     zygospore))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
-(add-to-list 'auto-mode-alist '("\.yml$" . feature-mdoe))
+(add-to-list 'load-path "~/.emacs.d/packages")
+(dolist (file-name (directory-files "~/.emacs.d/packages" nil "\\.el$"))
+  (load file-name))
 
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(ac-config-default)
-
-(require 'go-mode)
-(add-hook 'before-save-hook 'gofmt-before-save)
-
-(require 'haml-mode)
-(add-to-list 'auto-mode-alist '("\\.haml\\'" . haml-mode))
-
-(global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows)
-
-(setq ahs-idle-interval 0.2)
-(global-auto-highlight-symbol-mode)
-
-(global-git-gutter-mode +1)
-(git-gutter:linum-setup)
-(custom-set-variables '(git-gutter:update-interval 2))
-
-(global-set-key [f8] 'neotree-toggle)
-;; make the tree refresh on an interval instead of pressing 'g'?
-
-(load-theme 'solarized-dark t)
-;; (load-theme 'solarized-light t)
-
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\.yml$" . yaml-mode))
+;; (load-theme 'solarized-dark t)
+(load-theme 'solarized-light t)
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
@@ -73,9 +54,13 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.xml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
 (setq web-mode-enable-current-element-highlight t)
 (eval-after-load "web-mode" ;; M-x list-colors-display !!!
   '(set-face-background 'web-mode-current-element-highlight-face "light green"))
@@ -95,6 +80,8 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 (setq default-tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq make-backup-files nil)
 
 (require 'saveplace)
 (setq-default save-place t)
@@ -148,16 +135,15 @@
   (interactive)
   (load-file "~/.emacs.d/init.el") )
 
-;; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
-;; So Emacs gets the PATH environment
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq eshell-path-env path-from-shell) ; for eshell users
-    (setq exec-path (split-string path-from-shell path-separator))))
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
-(when window-system (set-exec-path-from-shell-PATH))
-
+;;; things I should look at:
+;; magit
+;; helm/projectile
+;; nyan cat mode
+;; beacon-mode
+;; restclient
+;; skewer (js repl)
+;; expand region
+;; org mode
