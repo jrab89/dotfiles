@@ -10,10 +10,10 @@
   '(solarized-theme
     git-gutter
     smex
-	terraform-mode
-	buffer-move
+    terraform-mode
+    buffer-move
     neotree
-	exec-path-from-shell
+    exec-path-from-shell
     clojure-mode
     cider
     find-file-in-project
