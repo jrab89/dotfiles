@@ -1,5 +1,5 @@
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages")
-                         ("melpa" . "http://melpa.milkbox.net/packages")))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -38,11 +38,8 @@
 (dolist (file-name (directory-files "~/.emacs.d/packages" nil "\\.el$"))
   (load file-name))
 
-;; (load-theme 'solarized-dark t)
-(load-theme 'solarized-light t)
-
-;;------------------------------------------------------------------------------
-;; UI
+(load-theme 'solarized-dark t)
+;; (load-theme 'solarized-light t)
 
 (setq create-lockfiles nil) ;; No need for ~ files when editing
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
@@ -58,10 +55,6 @@
 (setq default-tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq make-backup-files nil)
-
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (concat user-emacs-directory "places"))
 
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 
@@ -85,9 +78,6 @@
 (global-auto-revert-mode t) ;; Refresh buffers when files change on disk
 (desktop-save-mode t) ;; Save Emacs state between sessions
 
-;;------------------------------------------------------------------------------
-;; Navigation
-
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; Allow partial matches, e.g. "tl" will match "Tyrion Lannister"
 (setq ido-use-virtual-buffers t) ;; Includes buffer names of recently open files, even if they're not open
@@ -102,15 +92,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-;;------------------------------------------------------------------------------
-;; Custom functions
-
-;; This is the greatest and best function ever.
-(defun reload ()
-  "Reloads the .emacs file"
-  (interactive)
-  (load-file "~/.emacs.d/init.el") )
-
+;; enable some disabled commands: http://stackoverflow.com/q/10026221
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
