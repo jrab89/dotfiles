@@ -41,7 +41,7 @@
 (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-light t)
 
-(setq create-lockfiles nil) ;; No need for ~ files when editing
+;;; UI
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
 (menu-bar-mode -1) ;; Turn off menu bar at top of frame
 (global-linum-mode) ;; Show line numbers
@@ -51,36 +51,34 @@
 (global-hl-line-mode 1) ;; Highlight current line
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode 1)
-(setq show-paren-delay 0)
-(setq default-tab-width 4)
-(setq-default indent-tabs-mode nil)
 (setq make-backup-files nil)
-
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
-;; C-; to toggle comments
-(defun toggle-comment-on-line ()
-  "comment or uncomment current line"
-  (interactive)
-  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
-(global-set-key (kbd "C-;") 'toggle-comment-on-line)
-
-(require 'whitespace)
 (setq-default show-trailing-whitespace t)
 (defun toggle-show-trailing-whitespace ()
   "Toggle show-trailing-whitespace"
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
+;;; Editing
+(setq create-lockfiles nil) ;; No need for ~ files when editing
+(setq tab-width 4)
+(setq-default indent-tabs-mode nil)
 (global-auto-revert-mode t) ;; Refresh buffers when files change on disk
 (desktop-save-mode t) ;; Save Emacs state between sessions
 
-(ido-mode t)
-(setq ido-enable-flex-matching t) ;; Allow partial matches, e.g. "tl" will match "Tyrion Lannister"
-(setq ido-use-virtual-buffers t) ;; Includes buffer names of recently open files, even if they're not open
+;; enable some disabled commands: http://stackoverflow.com/q/10026221
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(defun toggle-comment-on-line ()
+  "comment or uncomment current line"
+  (interactive)
+  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+(global-set-key (kbd "C-;") 'toggle-comment-on-line)
+
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 
 ;; "When several buffers visit identically-named files,
 ;; Emacs must give the buffers distinct names. The usual method
@@ -91,10 +89,6 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-
-;; enable some disabled commands: http://stackoverflow.com/q/10026221
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 
 ;;; things I should look at:
 ;; magit
