@@ -28,6 +28,8 @@
     feature-mode
     flycheck
     rvm
+    inf-ruby
+    robe
     zygospore))
 
 (dolist (p my-packages)
@@ -89,6 +91,13 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+(require 'inf-ruby)
+(setq inf-ruby-default-implementation "pry")
+;; TODO (setq show-trailing-whitespace nil) in inf-ruby major mode?
+
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'robe-mode-hook 'ac-robe-setup)
 
 ;;; things I should look at:
 ;; magit
