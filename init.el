@@ -30,6 +30,9 @@
     rvm
     inf-ruby
     robe
+    company
+    tide
+    flycheck-typescript-tslint
     zygospore))
 
 (dolist (p my-packages)
