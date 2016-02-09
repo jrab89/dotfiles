@@ -33,6 +33,7 @@
     company
     tide
     flycheck-typescript-tslint
+    nvm
     zygospore))
 
 (dolist (p my-packages)
@@ -45,6 +46,19 @@
 
 (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-light t)
+
+
+(require 'nvm)
+(defun do-nvm-use (version)
+  "removes node binaries from exec-path, then adds the specified node binaries to exec-path"
+  (interactive "sVersion: ")
+  (nvm-use version)
+  (let ((node-ver-dir (car (last (nvm--find-exact-version-for version))))
+        (exec-path-wo-node (-reject
+                            (lambda (path)
+                              (string-match ".nvm/versions/node" path))
+                            exec-path)))
+    (setq exec-path (cons (f-join node-ver-dir "bin") exec-path-wo-node))))
 
 ;;; UI
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
