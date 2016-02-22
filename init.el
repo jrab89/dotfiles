@@ -34,6 +34,7 @@
     tide
     flycheck-typescript-tslint
     nvm
+    go-eldoc
     zygospore))
 
 (dolist (p my-packages)
