@@ -35,6 +35,7 @@
     flycheck-typescript-tslint
     nvm
     go-eldoc
+    markdown-mode
     zygospore))
 
 (dolist (p my-packages)
@@ -48,6 +49,11 @@
 (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-light t)
 
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(require 'ibuffer)
+(setq ibuffer-default-sorting-mode 'filename/process)
 
 (require 'nvm)
 (defun do-nvm-use (version)
