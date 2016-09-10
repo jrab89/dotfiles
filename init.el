@@ -32,7 +32,6 @@
     inf-ruby
     robe
     company
-    nvm
     go-eldoc
     markdown-mode
     zygospore))
@@ -53,18 +52,6 @@
 
 (require 'ibuffer)
 (setq ibuffer-default-sorting-mode 'filename/process)
-
-(require 'nvm)
-(defun do-nvm-use (version)
-  "removes node binaries from exec-path, then adds the specified node binaries to exec-path"
-  (interactive "sVersion: ")
-  (nvm-use version)
-  (let ((node-ver-dir (car (last (nvm--find-exact-version-for version))))
-        (exec-path-wo-node (-reject
-                            (lambda (path)
-                              (string-match ".nvm/versions/node" path))
-                            exec-path)))
-    (setq exec-path (cons (f-join node-ver-dir "bin") exec-path-wo-node))))
 
 ;;; UI
 (setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
@@ -105,7 +92,7 @@
 
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 
-;; "When several buffers visit identically-named files,
+;; When several buffers visit identically-named files,
 ;; Emacs must give the buffers distinct names. The usual method
 ;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
 ;; of the buffer names (all but one of them).
