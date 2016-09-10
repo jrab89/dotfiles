@@ -1,5 +1,6 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+  ("marmalade" . "https://marmalade-repo.org/packages/")
+  ("melpa" . "http://melpa.org/packages/")))
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -31,8 +32,6 @@
     inf-ruby
     robe
     company
-    tide
-    flycheck-typescript-tslint
     nvm
     go-eldoc
     markdown-mode
