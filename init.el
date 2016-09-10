@@ -15,8 +15,6 @@
     buffer-move
     neotree
     exec-path-from-shell
-    clojure-mode
-    cider
     find-file-in-project
     auto-highlight-symbol
     web-mode
