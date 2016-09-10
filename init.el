@@ -28,9 +28,7 @@
     go-autocomplete
     feature-mode
     flycheck
-    rvm
     inf-ruby
-    robe
     company
     go-eldoc
     markdown-mode
@@ -105,9 +103,6 @@
 (require 'inf-ruby)
 (setq inf-ruby-default-implementation "pry")
 ;; TODO (setq show-trailing-whitespace nil) in inf-ruby major mode?
-
-(add-hook 'ruby-mode-hook 'robe-mode)
-(add-hook 'robe-mode-hook 'ac-robe-setup)
 
 ;;; things I should look at:
 ;; magit
