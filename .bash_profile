@@ -24,6 +24,10 @@ parse_git_branch() {
     git branch 2> /dev/null | grep '^\*' | sed -e 's/^\*[ \t]*//'
 }
 
+parse_current_venv() {
+    basename "$(dirname "$VIRTUAL_ENV")"
+}
+
 # http://stackoverflow.com/a/16715681
 set_bash_prompt() {
     # http://unix.stackexchange.com/a/105932
@@ -38,6 +42,7 @@ set_bash_prompt() {
     local green='\e[1;32m'
     local red='\e[1;31m'
     local yellow='\e[1;33m'
+    local magenta='\e[1;35m'
     local color_off='\e[0m'
 
     local user_and_dir="\u \[${cyan}\]\w\[${color_off}\]"
@@ -45,14 +50,28 @@ set_bash_prompt() {
     if [ "$AWS_DEFAULT_PROFILE" == "" ]; then
         local current_aws_profile=""
     else
-        local current_aws_profile="\[${yellow}\]${AWS_DEFAULT_PROFILE}\[${color_off}\] "
+        local current_aws_profile="\[${yellow}\]aws:${AWS_DEFAULT_PROFILE}\[${color_off}\] "
     fi
 
     local current_git_branch
     if [ "$(parse_git_branch)" == "" ]; then
         current_git_branch=""
     else
-        current_git_branch="\[${blue}\]$(parse_git_branch)\[${color_off}\] "
+        local status_icon
+        if [ "$(git status -s)" == "" ]; then
+            status_icon="\[${green}\]o\[${color_off}\]"
+        else
+            status_icon="\[${red}\]x\[${color_off}\]"
+        fi
+
+        current_git_branch="\[${blue}\]branch:$(parse_git_branch)(${status_icon}\[${blue}\])\[${color_off}\] "
+    fi
+
+    local current_venv
+    if [ "$VIRTUAL_ENV" == "" ]; then
+        current_venv=""
+    else
+        current_venv="\[${magenta}\]venv:$(parse_current_venv)\[${color_off}\] "
     fi
 
     local exit_code_color
@@ -63,10 +82,15 @@ set_bash_prompt() {
     fi
     local colored_last_exit="\[${exit_code_color}\]${last_exit}\[${color_off}\]"
 
-    PS1="${user_and_dir} ${current_aws_profile}${current_git_branch}${colored_last_exit} $ "
+    PS1="${user_and_dir} ${current_aws_profile}${current_venv}${current_git_branch}${colored_last_exit} $ "
 }
 
 PROMPT_COMMAND=set_bash_prompt
+
+export AWS_DEFAULT_PROFILE=sandbox
+export HISTSIZE=1000000
+
+complete -C '/usr/local/bin/aws_completer' aws
 
 # https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 eval "$(ssh-agent -s)"
