@@ -64,7 +64,7 @@ set_bash_prompt() {
             status_icon="\[${red}\]x\[${color_off}\]"
         fi
 
-        current_git_branch="\[${blue}\]branch:$(parse_git_branch)(${status_icon}\[${blue}\])\[${color_off}\] "
+        current_git_branch="\[${blue}\]git:$(parse_git_branch)(${status_icon}\[${blue}\])\[${color_off}\] "
     fi
 
     local current_venv
@@ -88,7 +88,13 @@ set_bash_prompt() {
 PROMPT_COMMAND=set_bash_prompt
 
 export AWS_DEFAULT_PROFILE=sandbox
+
+# https://www.digitalocean.com/community/tutorials/how-to-use-bash-history-commands-and-expansions-on-a-linux-vps
 export HISTSIZE=1000000
+export HISTFILESIZE=1000000
+
+shopt -s histappend
+
 
 complete -C '/usr/local/bin/aws_completer' aws
 
