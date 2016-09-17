@@ -30,6 +30,8 @@
     company
     go-eldoc
     markdown-mode
+    elpy
+    flycheck-pos-tip
     zygospore))
 
 (dolist (p my-packages)
