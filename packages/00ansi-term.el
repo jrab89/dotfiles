@@ -4,7 +4,8 @@
 (add-hook 'term-mode-hook
   (function
     (lambda ()
-      (setq show-trailing-whitespace nil))))
+      (setq show-trailing-whitespace nil)
+      (linum-mode 0))))
 
 ;; http://stackoverflow.com/a/36344479
 (with-eval-after-load "term"
