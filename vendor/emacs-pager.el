@@ -49,6 +49,7 @@
 (define-derived-mode emacs-pager-mode fundamental-mode "Pager"
   "Mode for viewing data paged by emacs-pager"
   (setq-local make-backup-files nil)
+  (setq-local show-trailing-whitespace nil)
   (ansi-color-apply-on-region (goto-char (point-min))
                               (save-excursion
                                 (forward-line emacs-pager-max-line-coloring)
