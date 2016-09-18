@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'digest/md5'
+require 'fileutils'
+
+input = STDIN.read
+file = "/tmp/#{Digest::MD5.hexdigest(input)}.emacs-pager"
+
+File.write(file, input)
+system('emacsclient', '--quiet', file)
+FileUtils.rm(file)

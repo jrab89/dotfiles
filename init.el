@@ -42,6 +42,10 @@
 (dolist (file-name (directory-files "~/.emacs.d/packages" nil "\\.el$"))
   (load file-name))
 
+(add-to-list 'load-path "~/.emacs.d/vendor")
+(dolist (file-name (directory-files "~/.emacs.d/vendor" nil "\\.el$"))
+  (load file-name))
+
 (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-light t)
 
@@ -103,6 +107,14 @@
 (require 'inf-ruby)
 (setq inf-ruby-default-implementation "pry")
 ;; TODO (setq show-trailing-whitespace nil) in inf-ruby major mode?
+
+(require 'emacs-pager)
+(add-to-list 'auto-mode-alist '("\\.emacs-pager$" . emacs-pager-mode))
+(setq emacs-pager-max-line-coloring 1000)
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;;; things I should look at:
 ;; magit
