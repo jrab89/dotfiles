@@ -95,8 +95,16 @@ export HISTFILESIZE=1000000
 
 shopt -s histappend
 
-
 complete -C '/usr/local/bin/aws_completer' aws
+
+alias ll='ls -althr'
+
+if [ "$INSIDE_EMACS" ]; then
+    export PAGER="emacs-pipe"
+    export MANPAGER="emacs-pipe-no-color"
+fi
+
+export PATH="$HOME/.emacs.d/vendor/bin:$PATH"
 
 # https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 eval "$(ssh-agent -s)"
