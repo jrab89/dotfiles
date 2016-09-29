@@ -10,4 +10,5 @@
 ;; http://stackoverflow.com/a/36344479
 (with-eval-after-load "term"
   (define-key term-raw-map (kbd "C-c C-y") 'term-paste)
+  (define-key term-raw-map (kbd "M-x") 'smex)
   (define-key term-raw-map (kbd "s-v") 'term-paste))
