@@ -1,4 +1,4 @@
-# source /usr/local/etc/bash_completion.d/docker
+source /usr/local/etc/bash_completion.d/docker
 source /usr/local/etc/bash_completion.d/brew
 source /usr/local/etc/bash_completion.d/brew-cask
 source /usr/local/etc/bash_completion.d/bundler
@@ -11,6 +11,8 @@ source /usr/local/etc/bash_completion.d/rails
 source /usr/local/etc/bash_completion.d/rake
 source /usr/local/etc/bash_completion.d/ruby
 source /usr/local/etc/bash_completion.d/vagrant
+
+source ~/.bash_env
 
 ## https://coderwall.com/p/fasnya/add-git-branch-name-to-bash-promp
 # $ git branch
@@ -85,6 +87,11 @@ set_bash_prompt() {
     PS1="${user_and_dir} ${current_aws_profile}${current_venv}${current_git_branch}${colored_last_exit} $ "
 }
 
+awsp() {
+    export AWS_DEFAULT_PROFILE="$1"
+    export AWS_PROFILE="$1"
+}
+
 PROMPT_COMMAND=set_bash_prompt
 
 export AWS_DEFAULT_PROFILE=sandbox
@@ -98,6 +105,7 @@ shopt -s histappend
 complete -C '/usr/local/bin/aws_completer' aws
 
 alias ll='ls -althr'
+alias tf=terraform
 
 if [ "$INSIDE_EMACS" ]; then
     export PAGER="emacs-pipe"
