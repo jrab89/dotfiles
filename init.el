@@ -31,6 +31,7 @@
     go-eldoc
     markdown-mode
     elpy
+    ssh-config-mode
     flycheck-pos-tip
     zygospore))
 
@@ -106,7 +107,18 @@
 
 (require 'inf-ruby)
 (setq inf-ruby-default-implementation "pry")
-;; TODO (setq show-trailing-whitespace nil) in inf-ruby major mode?
+(add-hook 'inf-ruby-mode-hook
+  (function
+    (lambda ()
+      (setq show-trailing-whitespace nil)
+      (linum-mode 0))))
+
+ (autoload 'ssh-config-mode "ssh-config-mode" t)
+ (add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
+ (add-to-list 'auto-mode-alist '("/sshd?_config\\'"      . ssh-config-mode))
+ (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
+ (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
+ (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
 
 (require 'emacs-pager)
 (add-to-list 'auto-mode-alist '("\\.emacs-pager$" . emacs-pager-mode))
