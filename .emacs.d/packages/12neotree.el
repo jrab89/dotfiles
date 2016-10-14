@@ -3,8 +3,6 @@
 (require 'neotree)
 
 (setq
-  neo-show-hidden-files t
-  neo-modern-sidebar t
   neo-dont-be-alone t
   neo-banner-message nil
   neo-create-file-auto-open t
