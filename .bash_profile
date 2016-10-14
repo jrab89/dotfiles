@@ -104,8 +104,10 @@ shopt -s histappend
 
 complete -C '/usr/local/bin/aws_completer' aws
 
-alias ll='ls -althr'
+alias ll='ls -althrG'
 alias tf=terraform
+alias be='bundle exec'
+alias ec='emacsclient --tty --quiet'
 
 if [ "$INSIDE_EMACS" ]; then
     export PAGER="emacs-pipe"
