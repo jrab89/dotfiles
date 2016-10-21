@@ -1,6 +1,7 @@
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-  ("marmalade" . "https://marmalade-repo.org/packages/")
-  ("melpa" . "http://melpa.org/packages/")))
+(setq package-archives
+  '(("gnu" . "https://elpa.gnu.org/packages/")
+    ("marmalade" . "https://marmalade-repo.org/packages/")
+    ("melpa" . "https://melpa.org/packages/")))
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -8,31 +9,35 @@
 (package-refresh-contents)
 
 (defvar my-packages
-  '(solarized-theme
-    git-gutter
-    smex
-    terraform-mode
-    buffer-move
-    neotree
-    exec-path-from-shell
-    find-file-in-project
-    auto-highlight-symbol
-    web-mode
-    yaml-mode
-    haml-mode
-    windresize
-    go-mode
+  '(ac-inf-ruby
     auto-complete
-    go-autocomplete
-    feature-mode
-    flycheck
-    inf-ruby
+    auto-highlight-symbol
+    buffer-move
+    cider
+    clojure-mode
     company
-    go-eldoc
-    markdown-mode
+    direx
     elpy
-    ssh-config-mode
+    exec-path-from-shell
+    feature-mode
+    find-file-in-project
+    flycheck
     flycheck-pos-tip
+    git-gutter
+    go-autocomplete
+    go-eldoc
+    go-mode
+    haml-mode
+    inf-ruby
+    markdown-mode
+    puppet-mode
+    smex
+    solarized-theme
+    ssh-config-mode
+    terraform-mode
+    web-mode
+    windresize
+    yaml-mode
     zygospore))
 
 (dolist (p my-packages)
@@ -76,6 +81,10 @@
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
+(add-hook 'help-mode-hook
+  (function (lambda ()
+    (setq show-trailing-whitespace nil))))
+
 ;;; Editing
 (setq create-lockfiles nil) ;; No need for ~ files when editing
 (setq tab-width 4)
@@ -105,24 +114,28 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-(require 'inf-ruby)
-(setq inf-ruby-default-implementation "pry")
-(add-hook 'inf-ruby-mode-hook
-  (function
-    (lambda ()
-      (setq show-trailing-whitespace nil)
-      (linum-mode 0))))
-
- (autoload 'ssh-config-mode "ssh-config-mode" t)
- (add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
- (add-to-list 'auto-mode-alist '("/sshd?_config\\'"      . ssh-config-mode))
- (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
- (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
- (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
-
 (require 'emacs-pager)
 (add-to-list 'auto-mode-alist '("\\.emacs-pager$" . emacs-pager-mode))
-(setq emacs-pager-max-line-coloring 1000)
+(setq emacs-pager-max-line-coloring 5000)
+
+;; http://stackoverflow.com/a/24809045
+;; increase font
+(global-set-key (kbd "s-=")
+  (lambda ()
+    (interactive)
+    (let* ((old-face-attribute (face-attribute 'default :height))
+           (new-face-attribute (+ 10 old-face-attribute)))
+      (message (number-to-string (/ new-face-attribute 10)))
+      (set-face-attribute 'default nil :height new-face-attribute))))
+
+;; decrease font
+(global-set-key (kbd "s--")
+  (lambda ()
+    (interactive)
+    (let* ((old-face-attribute (face-attribute 'default :height))
+           (new-face-attribute (- old-face-attribute 10)))
+      (message (number-to-string (/ new-face-attribute 10)))
+      (set-face-attribute 'default nil :height new-face-attribute))))
 
 (require 'server)
 (unless (server-running-p)
