@@ -9,14 +9,14 @@
 (package-refresh-contents)
 
 (defvar my-packages
-  '(ac-inf-ruby
+  '(ac-cider
+    ac-inf-ruby
     auto-complete
     auto-highlight-symbol
     buffer-move
     cider
     clojure-mode
     company
-    direx
     elpy
     exec-path-from-shell
     feature-mode
@@ -27,14 +27,19 @@
     go-autocomplete
     go-eldoc
     go-mode
+    groovy-mode
     haml-mode
     inf-ruby
+    json-mode
     markdown-mode
+    neotree
     puppet-mode
     smex
     solarized-theme
     ssh-config-mode
     terraform-mode
+    tern
+    tern-auto-complete
     web-mode
     windresize
     yaml-mode
@@ -52,8 +57,16 @@
 (dolist (file-name (directory-files "~/.emacs.d/vendor" nil "\\.el$"))
   (load file-name))
 
+(require 'cl)
+
 (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-light t)
+
+;; (add-hook 'web-mode-hook (lambda () (tern-mode t)))
+;; (eval-after-load 'tern
+;;    '(progn
+;;       (require 'tern-auto-complete)
+;;       (tern-ac-setup)))
 
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
