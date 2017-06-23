@@ -10,3 +10,5 @@ smex-items
 ac-comphist.dat
 games
 .DS_Store
+.python-environments
+.emacs.d/network-security.data

@@ -1,135 +1,90 @@
-(setq package-archives
-  '(("gnu" . "https://elpa.gnu.org/packages/")
-    ("marmalade" . "https://marmalade-repo.org/packages/")
-    ("melpa" . "https://melpa.org/packages/")))
-
 (require 'package)
-(setq package-enable-at-startup nil)
+
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
+(defvar my-packages '(ag
+                      anaconda-mode
+                      auto-highlight-symbol
+                      better-defaults
+                      cider
+                      company
+                      company-jedi
+                      company-quickhelp
+                      exec-path-from-shell
+                      find-file-in-project
+                      flycheck
+                      git-gutter
+                      ido-ubiquitous
+                      ido-vertical-mode
+                      json-mode
+                      markdown-mode
+                      neotree
+                      smex
+                      solarized-theme
+                      terraform-mode
+                      tide
+                      windresize
+                      yaml-mode
+                      zygospore))
+
 (package-initialize)
 (package-refresh-contents)
-
-(defvar my-packages
-  '(ac-cider
-    ac-inf-ruby
-    auto-complete
-    auto-highlight-symbol
-    buffer-move
-    cider
-    clojure-mode
-    company
-    elpy
-    exec-path-from-shell
-    feature-mode
-    find-file-in-project
-    flycheck
-    flycheck-pos-tip
-    git-gutter
-    go-autocomplete
-    go-eldoc
-    go-mode
-    groovy-mode
-    haml-mode
-    inf-ruby
-    json-mode
-    markdown-mode
-    neotree
-    puppet-mode
-    smex
-    solarized-theme
-    ssh-config-mode
-    terraform-mode
-    tern
-    tern-auto-complete
-    web-mode
-    windresize
-    yaml-mode
-    zygospore))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
-(add-to-list 'load-path "~/.emacs.d/packages")
-(dolist (file-name (directory-files "~/.emacs.d/packages" nil "\\.el$"))
-  (load file-name))
-
 (add-to-list 'load-path "~/.emacs.d/vendor")
 (dolist (file-name (directory-files "~/.emacs.d/vendor" nil "\\.el$"))
   (load file-name))
 
-(require 'cl)
-
 (load-theme 'solarized-dark t)
-;; (load-theme 'solarized-light t)
 
-;; (add-hook 'web-mode-hook (lambda () (tern-mode t)))
-;; (eval-after-load 'tern
-;;    '(progn
-;;       (require 'tern-auto-complete)
-;;       (tern-ac-setup)))
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+(setq ahs-idle-interval 0.1)
 
-(require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;; highlight matching xml/html tags
+(require 'hl-tags-mode)
+(set-face-background 'highlight "dark slate blue")
+(add-hook 'sgml-mode-hook (lambda () (hl-tags-mode 1)))
+(add-hook 'nxml-mode-hook (lambda () (hl-tags-mode 1)))
 
-(require 'ibuffer)
-(setq ibuffer-default-sorting-mode 'filename/process)
+;; python
 
-;;; UI
-(setq inhibit-startup-message t) ;; Go straight to scratch buffer on startup
-(menu-bar-mode -1) ;; Turn off menu bar at top of frame
-(global-linum-mode) ;; Show line numbers
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ;; Turn off toolbar at top
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ;; Turn off OS scrollbars
-(setq-default frame-title-format "%b (%f)") ;; Show full path in frame title
-(global-hl-line-mode 1) ;; Highlight current line
-(fset 'yes-or-no-p 'y-or-n-p)
-(show-paren-mode 1)
-(setq make-backup-files nil)
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (add-to-list 'company-backends 'company-jedi)))
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:tooltip-method nil)
+
+;; Show line numbers
+(global-linum-mode)
+
+;; Highlight current line
+(global-hl-line-mode t)
+
+(windmove-default-keybindings)
 
 (setq-default show-trailing-whitespace t)
+
 (defun toggle-show-trailing-whitespace ()
   "Toggle show-trailing-whitespace"
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
-(add-hook 'help-mode-hook
-  (function (lambda ()
-    (setq show-trailing-whitespace nil))))
+;; minibuffer
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (setq show-trailing-whitespace nil)))
 
-;;; Editing
-(setq create-lockfiles nil) ;; No need for ~ files when editing
-(setq tab-width 4)
-(setq-default indent-tabs-mode nil)
-(global-auto-revert-mode t) ;; Refresh buffers when files change on disk
-(desktop-save-mode t) ;; Save Emacs state between sessions
+;; Refresh buffers when files change on disk
+(global-auto-revert-mode t)
 
-;; enable some disabled commands: http://stackoverflow.com/q/10026221
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-
-(defun toggle-comment-on-line ()
-  "comment or uncomment current line"
-  (interactive)
-  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
-(global-set-key (kbd "C-;") 'toggle-comment-on-line)
-
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-
-;; When several buffers visit identically-named files,
-;; Emacs must give the buffers distinct names. The usual method
-;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
-;; of the buffer names (all but one of them).
-;; The forward naming method includes part of the file's directory
-;; name at the beginning of the buffer name
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-
-(require 'emacs-pager)
-(add-to-list 'auto-mode-alist '("\\.emacs-pager$" . emacs-pager-mode))
-(setq emacs-pager-max-line-coloring 5000)
+;; Save Emacs state between sessions
+(desktop-save-mode t)
 
 ;; http://stackoverflow.com/a/24809045
 ;; increase font
@@ -154,12 +109,135 @@
 (unless (server-running-p)
   (server-start))
 
-;;; things I should look at:
+;; neotree
+(setq neo-smart-open t)
+(setq neo-keymap-style 'concise)
+(setq neo-vc-integration '(face char))
+(require 'neotree)
+(add-to-list 'neo-hidden-regexp-list "__pycache__")
+(add-to-list 'neo-hidden-regexp-list ".egg-info")
+
+(defun neotree-opened-in-other-frame-p ()
+    (and (neo-global--get-window)
+         (not (eq (window-frame (neo-global--get-window))
+                  (window-frame (selected-window))))))
+
+(defun neotree-project-root ()
+  "Open NeoTree using ffip-project-root"
+  (interactive)
+  (when (neotree-opened-in-other-frame-p)
+    (neotree-hide))
+  (let ((project-dir (ffip-project-root))
+        (file-name (buffer-file-name)))
+    (if project-dir
+        (progn
+          (neotree-dir project-dir)
+          (neotree-find file-name))
+      (message "ffip couldn't find the project root."))))
+
+;; ido
+(ido-mode 1)
+(ido-everywhere 1)
+(ido-ubiquitous-mode 1)
+(ido-vertical-mode 1)
+(setq ido-vertical-show-count 1)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
+;; smex
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; old M-x.
+
+;; find-file-in-project
+(setq ffip-prefer-ido-mode t)
+
+;; git-gutter
+(global-git-gutter-mode t)
+(git-gutter:linum-setup)
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
+(company-quickhelp-mode 1)
+(setq company-quickhelp-delay 1.5)
+
+;; eldoc
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+(setq eldoc-idle-delay 0)
+
+;; zygospore
+(require 'zygospore)
+(defvar zygospore-reopen-neotree-p nil)
+
+(defun zygospore-should-restore-p ()
+  (and (equal (selected-window) (next-window))
+       (equal (selected-window) zygospore-last-full-frame-window)
+       (equal (current-buffer) zygospore-last-full-frame-buffer)))
+
+(global-set-key (kbd "C-x 1")
+                (lambda ()
+                  (interactive)
+                  (if (zygospore-should-restore-p)
+                      (progn
+                        (zygospore-restore-other-windows)
+                        (when zygospore-reopen-neotree-p
+                          (neotree-show)
+                          (setq zygospore-reopen-neotree-p nil)))
+                    (when (neo-global--window-exists-p)
+                      (neotree-hide)
+                      (setq zygospore-reopen-neotree-p t))
+                    (zygospore-delete-other-window))))
+
+;; exec-path-from-shell
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "PYTHONPATH")
+
+;; term
+(add-hook 'term-mode-hook
+  (function
+    (lambda ()
+      (setq show-trailing-whitespace nil)
+      (linum-mode 0))))
+
+;; http://stackoverflow.com/a/36344479
+(with-eval-after-load "term"
+  (define-key term-raw-map (kbd "C-y") 'term-paste)
+  (define-key term-raw-map (kbd "M-x") 'smex)
+  (define-key term-raw-map (kbd "s-v") 'term-paste))
+
+;; TypeScript
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+;; ibuffer
+(setq ibuffer-default-sorting-mode 'filename/process)
+
+;; flycheck
+(global-flycheck-mode)
+
+;; makes the big dumb warning sign go away in emacs 25
+(setq visible-bell nil)
+
+;; allow these without asking
+(put 'erase-buffer 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; TODO
+;; python
+;; ruby
+;; go
+;; sessions/desktop
 ;; magit
-;; helm/projectile
-;; nyan cat mode
-;; beacon-mode
-;; restclient
-;; skewer (js repl)
-;; expand region
-;; org mode
+;; which-key
+;; elscreen
+;; projectile and/or helm
