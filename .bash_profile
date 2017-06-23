@@ -106,16 +106,17 @@ complete -C '/usr/local/bin/aws_completer' aws
 
 alias ll='ls -althrG'
 alias tf=terraform
+alias myip='curl http://checkip.amazonaws.com'
 alias be='bundle exec'
 alias ec='emacsclient --tty --quiet'
+alias now='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
-if [ "$INSIDE_EMACS" ]; then
-    export PAGER="emacs-pipe"
-    export MANPAGER="emacs-pipe-no-color"
-fi
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$HOME/.emacs.d/vendor/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 
-export PATH="$HOME/.emacs.d/vendor/bin:$PATH"
+source ~/.rvm/scripts/rvm
 
 # https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa
+# eval "$(ssh-agent -s)"
+# ssh-add ~/.ssh/id_rsa
