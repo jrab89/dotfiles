@@ -5,17 +5,18 @@
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (defvar my-packages '(ag
-                      anaconda-mode
                       auto-highlight-symbol
                       better-defaults
                       cider
                       company
+                      company-go
                       company-jedi
-                      company-quickhelp
                       exec-path-from-shell
                       find-file-in-project
                       flycheck
                       git-gutter
+                      go-eldoc
+                      go-mode
                       ido-ubiquitous
                       ido-vertical-mode
                       json-mode
@@ -159,13 +160,29 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 1)
-(company-quickhelp-mode 1)
 (setq company-quickhelp-delay 1.5)
 
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'go-mode-hook 'go-eldoc-setup)
 (setq eldoc-idle-delay 0)
+
+;; go
+(require 'go-mode)
+(require 'company)
+(require 'company-go)
+(setq gofmt-command "goimports")
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook (lambda ()
+                          (set (make-local-variable 'company-backends) '(company-go))
+                          (company-mode)))
+(add-hook 'go-mode-hook
+          (lambda ()
+            (setq tab-width 4)))
+
+(setq company-go-show-annotation t)
+(setq company-tooltip-align-annotations t)
 
 ;; zygospore
 (require 'zygospore)
@@ -215,7 +232,6 @@
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (company-mode +1))
-
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; ibuffer
