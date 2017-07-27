@@ -27,7 +27,7 @@ parse_git_branch() {
 }
 
 parse_current_venv() {
-    basename "$(dirname "$VIRTUAL_ENV")"
+    basename "$VIRTUAL_ENV"
 }
 
 # http://stackoverflow.com/a/16715681
