@@ -43,7 +43,9 @@
 
 (load-theme 'solarized-dark t)
 
+;; auto-highlight-symbol
 (require 'auto-highlight-symbol)
+(setq ahs-modes (append ahs-modes '(go-mode)))
 (global-auto-highlight-symbol-mode t)
 (setq ahs-idle-interval 0.1)
 
@@ -53,8 +55,12 @@
 (add-hook 'sgml-mode-hook (lambda () (hl-tags-mode 1)))
 (add-hook 'nxml-mode-hook (lambda () (hl-tags-mode 1)))
 
-;; python
+;; exec-path-from-shell
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "PYTHONPATH")
+(exec-path-from-shell-copy-env "GOPATH")
 
+;; python
 (add-hook 'python-mode-hook
           (lambda ()
             (add-to-list 'company-backends 'company-jedi)))
@@ -114,6 +120,7 @@
 (setq neo-smart-open t)
 (setq neo-keymap-style 'concise)
 (setq neo-vc-integration '(face char))
+(setq neo-autorefresh nil) ;; neotree 0.5.2 will constantly change root if this is non-nil
 (require 'neotree)
 (add-to-list 'neo-hidden-regexp-list "__pycache__")
 (add-to-list 'neo-hidden-regexp-list ".egg-info")
@@ -158,15 +165,15 @@
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0)
+(setq company-idle-delay 0.2)
 (setq company-minimum-prefix-length 1)
-(setq company-quickhelp-delay 1.5)
 
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'python-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
-(setq eldoc-idle-delay 0)
+(setq eldoc-idle-delay 0.2)
 
 ;; go
 (require 'go-mode)
@@ -207,10 +214,6 @@
                       (setq zygospore-reopen-neotree-p t))
                     (zygospore-delete-other-window))))
 
-;; exec-path-from-shell
-(exec-path-from-shell-initialize)
-(exec-path-from-shell-copy-env "PYTHONPATH")
-
 ;; term
 (add-hook 'term-mode-hook
   (function
@@ -249,9 +252,8 @@
 (put 'downcase-region 'disabled nil)
 
 ;; TODO
-;; python
 ;; ruby
-;; go
+;; python virtualenv
 ;; sessions/desktop
 ;; magit
 ;; which-key
