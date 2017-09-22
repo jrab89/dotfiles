@@ -112,7 +112,7 @@ alias ec='emacsclient --tty --quiet'
 alias now='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
 export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:$HOME/.emacs.d/vendor/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
 source ~/.rvm/scripts/rvm
