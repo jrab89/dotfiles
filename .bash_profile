@@ -94,7 +94,7 @@ awsp() {
 
 PROMPT_COMMAND=set_bash_prompt
 
-export AWS_DEFAULT_PROFILE=sandbox
+awsp sandbox
 
 # https://www.digitalocean.com/community/tutorials/how-to-use-bash-history-commands-and-expansions-on-a-linux-vps
 export HISTSIZE=1000000
