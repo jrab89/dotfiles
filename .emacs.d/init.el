@@ -4,15 +4,15 @@
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(defvar my-packages '(auto-highlight-symbol
+(defvar my-packages '(auto-complete
+                      auto-highlight-symbol
                       better-defaults
-                      company
-                      company-jedi
                       exec-path-from-shell
                       flycheck
                       git-gutter
                       helm
                       helm-projectile
+                      jedi
                       json-mode
                       markdown-mode
                       projectile
@@ -34,6 +34,10 @@
   (load file-name))
 
 (load-theme 'zenburn t)
+
+;; autocomplete
+(ac-config-default)
+(global-auto-complete-mode t)
 
 ;; helm
 (require 'helm-config)
@@ -65,14 +69,14 @@
 ;; exec-path-from-shell
 (exec-path-from-shell-initialize)
 
-;; python
-
-;; https://github.com/tkf/emacs-jedi/issues/178#issuecomment-315958663
-(setq jedi:server-args '("--virtual-env" "/Users/jrabovsky/.virtualenvs/default"))
-(add-hook 'python-mode-hook
-          (lambda ()
-            (add-to-list 'company-backends 'company-jedi)))
+;; without this, flycheck will run "/usr/local/bin/flake8", causing errors that look like:
+;; "Suspicious state from syntax checker python-flake8: Checker python-flake8 returned non-zero exit code 1, but no errors from output"
+(setq flycheck-python-flake8-executable "/Users/jrabovsky/git_repos/dotfiles/.emacs.d/.python-environments/default/bin/flake8")
+(setq jedi:server-args '("--virtual-env" "/Users/jrabovsky/git_repos/dotfiles/.emacs.d/.python-environments/default"))
 (add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'jedi:ac-setup)
+(setq jedi:get-in-function-call-delay 200)
+(setq jedi:complete-on-dot t)
 (setq jedi:tooltip-method nil)
 
 ;; Show line numbers
@@ -128,11 +132,6 @@
 (global-git-gutter-mode t)
 (git-gutter:linum-setup)
 
-;; company
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0.2)
-(setq company-minimum-prefix-length 1)
-
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'python-mode-hook 'turn-on-eldoc-mode)
@@ -172,6 +171,7 @@
 
 ;; TODO
 ;; ruby
+;; no-easy-keys
 ;; better python virtualenv support?
 ;; sessions/desktop
 ;; magit
