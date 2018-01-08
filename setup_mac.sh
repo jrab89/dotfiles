@@ -1,5 +1,7 @@
 #!/bin/bash
 
+current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 green='\e[1;32m'
 red='\e[1;31m'
 color_off='\e[0m'
@@ -10,49 +12,36 @@ brew_packages="
   docker-compose
   git
   graphviz
-  homebrew/completions/brew-cask-completion
-  homebrew/completions/bundler-completion
-  homebrew/completions/docker-completion
-  homebrew/completions/docker-compose-completion
-  homebrew/completions/gem-completion
-  homebrew/completions/pip-completion
-  homebrew/completions/rails-completion
-  homebrew/completions/rake-completion
-  homebrew/completions/ruby-completion
-  homebrew/completions/vagrant-completion
   htop
   ispell
   jq
-  jruby
   mysql
   node
   p7zip
   python
-  ruby
   shellcheck
   terraform
   the_silver_searcher
   tree"
 
 brew_cask_packages="
-  battle-net
   caffeine
   docker
   emacs
-  firefox
-  google-chrome
   iterm2
   java
   kitematic
-  plex-media-server
-  sequel-pro
   slack
-  transmission
   vagrant
   virtualbox
   virtualbox-extension-pack
   vlc"
 
+symlink_to_home_dir="
+  .vimrc
+  .pryrc
+  .zshrc
+  .emacs.d"
 
 print_status() {
     printf " --> ${green}$1${color_off}\n"
@@ -70,6 +59,9 @@ command_exists() {
         return 1
     fi
 }
+
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 if ! command_exists brew; then
     print_status "installing homebrew"
@@ -93,5 +85,14 @@ for package in $brew_cask_packages; do
     brew cask install "$package"
         if [ "$?" -ne 0 ]; then
             die "failed to install $package"
+        fi
+done
+
+# TODO: don't die if symlink already exists
+print_status "symlinking dotfiles to home dir"
+for to_symlink in $symlink_to_home_dir; do
+    ln -s "$current_dir/$to_symlink" "$HOME/$to_symlink"
+        if [ "$?" -ne 0 ]; then
+            die "failed to symlink $HOME/$to_symlink to $current_dir/$to_symlink"
         fi
 done
