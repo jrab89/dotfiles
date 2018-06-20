@@ -1,7 +1,7 @@
 # TODO: `File.absolute_path` vs `File.expand_path`?
 SCRIPT_DIR = File.absolute_path(File.dirname(__FILE__))
 HOME_DIR = Dir.home
-DONT_SYMLINK = ['.git', '.gitignore']
+DONT_SYMLINK = ['.git', '.gitignore', '.', '..']
 
 module Tty
   module_function
@@ -69,7 +69,7 @@ end
 system 'brew', 'analytics', 'off'
 
 info "setting up symlinks in #{HOME_DIR}"
-symlink_basenames = Dir.glob('.[^.]*', base: SCRIPT_DIR) - DONT_SYMLINK
+symlink_basenames = Dir.glob("#{SCRIPT_DIR}/.*").map { |f| File.basename(f) } - DONT_SYMLINK
 abs_symlink_targets = symlink_basenames.map { |basename| File.join(SCRIPT_DIR, basename) }
 abs_symlink_sources = symlink_basenames.map { |basename| File.join(HOME_DIR, basename) }
 
@@ -87,6 +87,7 @@ abs_symlink_sources.zip(abs_symlink_targets, symlink_basenames).each do |source,
 end
 
 info 'installing brew packages...'
+system 'brew', 'tap', 'homebrew/cask-versions'
 system 'brew', 'bundle', 'install', '--global', '--no-upgrade'
 info 'all done!'
 
