@@ -7,13 +7,14 @@
                       counsel-projectile
                       dockerfile-mode
                       exec-path-from-shell
-                      git-gutter
                       haml-mode
                       idle-highlight-mode
                       ivy
+                      git-gutter-fringe
                       json-mode
                       markdown-mode
                       projectile
+                      salt-mode
                       terraform-mode
                       windresize
                       yaml-mode
@@ -31,6 +32,9 @@
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
+
+(require 'git-gutter-fringe)
+(global-git-gutter-mode +1)
 
 ;; prevent emacs from adding coding information in the first line
 ;; https://stackoverflow.com/a/6454077
@@ -58,7 +62,6 @@
           (rename-buffer new-name)
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
-
 
 ;; Set projectile project name as frame title
 ;; https://emacs.stackexchange.com/a/35443
@@ -137,10 +140,6 @@
            (new-face-attribute (- old-face-attribute 10)))
       (message (number-to-string (/ new-face-attribute 10)))
       (set-face-attribute 'default nil :height new-face-attribute))))
-
-;; git-gutter
-(global-git-gutter-mode t)
-(git-gutter:linum-setup)
 
 ;; zygospore
 (require 'zygospore)
