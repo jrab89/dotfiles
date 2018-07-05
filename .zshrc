@@ -60,7 +60,6 @@ ZSH_THEME="bira"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  chruby
   gem
   vagrant
 )
@@ -110,9 +109,5 @@ export PATH="$HOME/go/bin:$PATH"
 # https://github.com/rails/spring#environment-variables
 export DISABLE_SPRING=1
 
-# Remap left option key in iterm to meta, e.g. for 'meta + f' to move forward a word
-# https://stackoverflow.com/a/197092
-
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-chruby 2.5
+# TODO: Remap left option key in iterm to meta, e.g. for 'meta + f' to move forward a word
+#       https://stackoverflow.com/a/197092
