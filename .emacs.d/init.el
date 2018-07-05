@@ -3,18 +3,21 @@
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(defvar my-packages '(better-defaults
+(defvar my-packages '(ag
+                      better-defaults
+                      counsel
                       counsel-projectile
                       dockerfile-mode
                       exec-path-from-shell
+                      git-gutter-fringe
                       haml-mode
                       idle-highlight-mode
                       ivy
-                      git-gutter-fringe
                       json-mode
                       markdown-mode
                       projectile
                       salt-mode
+                      swiper
                       terraform-mode
                       windresize
                       yaml-mode
@@ -35,6 +38,8 @@
 
 (require 'git-gutter-fringe)
 (global-git-gutter-mode +1)
+
+(require 'better-defaults)
 
 ;; prevent emacs from adding coding information in the first line
 ;; https://stackoverflow.com/a/6454077
@@ -63,6 +68,24 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
+(require 'counsel)
+(require 'swiper)
+(require 'ivy)
+
+(ivy-mode)
+(counsel-mode)
+
+(require 'projectile)
+(projectile-global-mode)
+
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(setq ivy-use-selectable-prompt t)
+(setq projectile-completion-system 'ivy)
+(global-set-key "\C-s" 'swiper)
+;; only using `counsel-projectile-ag` from the counsel-projectile package
+(define-key projectile-mode-map [remap projectile-ag] 'counsel-projectile-ag)
+
 ;; Set projectile project name as frame title
 ;; https://emacs.stackexchange.com/a/35443
 (setq frame-title-format
@@ -73,31 +96,11 @@
            (unless (string= "-" project-name)
              (format " in [%s]" project-name))))))
 
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(setq ivy-use-selectable-prompt t)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-
 ;; TODO: change the mode line to show files' paths (inside and outside of projectile projects), and show if that file has been saved
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
   (interactive)
   (message (buffer-file-name)))
-
-;; projectile
-(require 'projectile)
-(projectile-global-mode)
-(counsel-projectile-mode)
 
 (setq show-paren-style 'parenthesis)
 (setq show-paren-delay 0)
@@ -106,15 +109,6 @@
 (global-hl-line-mode t)
 
 (windmove-default-keybindings)
-
-(defun toggle-show-trailing-whitespace ()
-  "Toggle show-trailing-whitespace"
-  (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace)))
-
-(add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (setq show-trailing-whitespace nil)))
 
 ;; Refresh buffers when files change on disk
 (global-auto-revert-mode t)
@@ -175,13 +169,14 @@
 (put 'downcase-region 'disabled nil)
 
 ;; TODO
-;; irony-mode for c/c++ ? (needs company-mode)
-;; ruby
-;; rainbow-delimiters
-;; no-easy-keys
 ;; better python virtualenv support?
-;; magit
-;; which-key
-;; elscreen or projectile perspective?
-;; LSP stuff
+;; company
 ;; dumb jump
+;; flycheck
+;; go
+;; irony-mode for c/c++ ? (needs company-mode)
+;; magit
+;; no-easy-keys
+;; rainbow-delimiters
+;; ruby
+;; which-key
