@@ -9,6 +9,7 @@
                       counsel-projectile
                       dockerfile-mode
                       exec-path-from-shell
+                      flycheck
                       git-gutter-fringe
                       haml-mode
                       idle-highlight-mode
@@ -96,6 +97,9 @@
            (unless (string= "-" project-name)
              (format " in [%s]" project-name))))))
 
+(require 'flycheck)
+(global-flycheck-mode)
+
 ;; TODO: change the mode line to show files' paths (inside and outside of projectile projects), and show if that file has been saved
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
@@ -172,7 +176,6 @@
 ;; better python virtualenv support?
 ;; company
 ;; dumb jump
-;; flycheck
 ;; go
 ;; irony-mode for c/c++ ? (needs company-mode)
 ;; magit
