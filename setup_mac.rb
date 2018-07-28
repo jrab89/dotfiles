@@ -3,6 +3,10 @@ SCRIPT_DIR = File.absolute_path(File.dirname(__FILE__))
 HOME_DIR = Dir.home
 DONT_SYMLINK = ['.git', '.gitignore', '.', '..']
 
+GO_PACKAGES = ['github.com/kisielk/errcheck',
+               'github.com/nsf/gocode',
+               'github.com/rogpeppe/godef']
+
 module Tty
   module_function
 
@@ -89,6 +93,10 @@ end
 info 'installing brew packages...'
 system 'brew', 'tap', 'homebrew/cask-versions'
 system 'brew', 'bundle', 'install', '--global', '--no-upgrade'
+info 'installing go packages...'
+GO_PACKAGES.each do |package|
+  system 'go', 'get', '-u', package
+end
 info 'all done!'
 
 # TODO: install ruby 2.x with `ruby-install`

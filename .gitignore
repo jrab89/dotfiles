@@ -12,3 +12,5 @@ games
 .DS_Store
 .python-environments
 .emacs.d/network-security.data
+projectile-bookmarks.eld
+projectile.cache

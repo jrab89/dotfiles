@@ -59,6 +59,7 @@ ZSH_THEME="bira"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  aws
   git
   gem
   vagrant
@@ -104,10 +105,14 @@ alias myip='curl http://checkip.amazonaws.com'
 alias be='bundle exec'
 alias now='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
-export PATH="$HOME/go/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
 
 # https://github.com/rails/spring#environment-variables
 export DISABLE_SPRING=1
 
 # TODO: Remap left option key in iterm to meta, e.g. for 'meta + f' to move forward a word
 #       https://stackoverflow.com/a/197092
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/Cellar/terraform/0.11.7/bin/terraform terraform
