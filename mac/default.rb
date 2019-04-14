@@ -79,7 +79,6 @@ casks.each { |c| cask c }
 go_packages.each { |p| go_package p }
 vscode_exentsions.each { |e| vscode_exentsion e }
 
-remote_file '/Users/jrab89/.Brewfile'
 remote_file '/Users/jrab89/.pryrc'
 remote_file '/Users/jrab89/.psqlrc'
 remote_file '/Users/jrab89/.zshrc'
