@@ -15,6 +15,14 @@ define :go_package do
   end
 end
 
+define :vscode_exentsion do
+  extension = params[:name]
+  execute "installing vscode extension #{extension}" do
+    command "code --install-extension #{extension}"
+    not_if "code --list-extensions | grep #{extension}"
+  end
+end
+
 packages = ['awscli',
             'cloc',
             'docker-compose',
@@ -28,6 +36,7 @@ packages = ['awscli',
             'node',
             'p7zip',
             'python',
+            'python3',
             'ruby',
             'shellcheck',
             'terraform',
@@ -56,6 +65,10 @@ go_packages = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
                'github.com/rogpeppe/godef']
 
+vscode_exentsions = ['lfs.vscode-emacs-friendly',
+                     'ms-python.python',
+                     'rebornix.ruby']
+
 execute 'disable homebrew analytics' do
   command 'brew analytics off'
   not_if 'brew analytics state | grep disabled'
@@ -64,6 +77,7 @@ end
 packages.each { |p| package p }
 casks.each { |c| cask c }
 go_packages.each { |p| go_package p }
+vscode_exentsions.each { |e| vscode_exentsion e }
 
 remote_file '/Users/jrab89/.Brewfile'
 remote_file '/Users/jrab89/.pryrc'
