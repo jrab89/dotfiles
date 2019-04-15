@@ -18,13 +18,26 @@ end
 define :vscode_exentsion do
   extension = params[:name]
   execute "installing vscode extension #{extension}" do
-    command "code --install-extension #{extension}"
-    not_if "code --list-extensions | grep #{extension}"
+    command "vscodium --install-extension #{extension}"
+    not_if "vscodium --list-extensions | grep #{extension}"
   end
 end
 
-packages = ['awscli',
+define :ruby_install do
+  version = params[:name]
+  execute "installing ruby #{version}" do
+    command "ruby-install ruby '#{version}'"
+    not_if "test -e $HOME/.rubies/ruby-#{version}"
+  end
+end
+
+USER = run_command('whoami').stdout.chomp
+LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
+
+PACKAGES = ['awscli',
             'cloc',
+            'chruby',
+            'ruby-install',
             'docker-compose',
             'git',
             'go',
@@ -39,12 +52,13 @@ packages = ['awscli',
             'python3',
             'ruby',
             'shellcheck',
-            'terraform',
+            # TODO: install terraform 0.11.7
+            # 'terraform',
             'the_silver_searcher',
             'tree',
             'vim']
 
-casks = ['battle-net',
+CASKS = ['battle-net',
          'blender',
          'caffeine',
          'docker',
@@ -57,15 +71,16 @@ casks = ['battle-net',
          'steam',
          'transmission',
          'vagrant',
+         'vscodium',
          'virtualbox',
          'virtualbox-extension-pack',
          'vlc']
 
-go_packages = ['github.com/kisielk/errcheck',
+GO_PACKAGES = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
                'github.com/rogpeppe/godef']
 
-vscode_exentsions = ['lfs.vscode-emacs-friendly',
+VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'ms-python.python',
                      'rebornix.ruby']
 
@@ -74,15 +89,19 @@ execute 'disable homebrew analytics' do
   not_if 'brew analytics state | grep disabled'
 end
 
-packages.each { |p| package p }
-casks.each { |c| cask c }
-go_packages.each { |p| go_package p }
-vscode_exentsions.each { |e| vscode_exentsion e }
+PACKAGES.each { |package_name| package package_name }
+CASKS.each { |cask_name| cask cask_name }
+GO_PACKAGES.each { |package_name| go_package package_name }
+VSCODE_EXENTSIONS.each { |extension_name| vscode_exentsion extension_name }
 
-# TODO: symlink dotfiles instead of copying them
-remote_file '/Users/jrab89/.pryrc'
-remote_file '/Users/jrab89/.psqlrc'
-remote_file '/Users/jrab89/.zshrc'
-remote_file '/Users/jrab89/.vimrc'
-remote_file '/Users/jrab89/Library/Application Support/Code/User/settings.json'
-remote_file '/Users/jrab89/Library/Application Support/Code/User/keybindings.json'
+ruby_install LATEST_RUBY_VERSION
+
+remote_file "/Users/#{USER}/.pryrc"
+remote_file "/Users/#{USER}/.psqlrc"
+remote_file "/Users/#{USER}/.vimrc"
+remote_file "/Users/#{USER}/Library/Application Support/VSCodium/User/settings.json"
+remote_file "/Users/#{USER}/Library/Application Support/VSCodium/User/keybindings.json"
+
+template "/Users/#{USER}/.zshrc" do
+  variables(ruby_version: LATEST_RUBY_VERSION)
+end
