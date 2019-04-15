@@ -1,0 +1,33 @@
+[
+    // exit vscode
+    { "key": "ctrl+x ctrl+c", "command": "workbench.action.quit" },
+
+    // splits
+    { "key": "ctrl+x 2", "command": "workbench.action.splitEditorDown" },
+    { "key": "ctrl+x 3", "command": "workbench.action.splitEditorRight" },
+
+    // "windmove"
+    { "key": "shift+left", "command": "workbench.action.navigateLeft" },
+    { "key": "shift+left", "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus" },
+    { "key": "shift+right", "command": "workbench.action.navigateRight" },
+    { "key": "shift+right", "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus" },
+    { "key": "shift+up", "command": "workbench.action.navigateUp" },
+    { "key": "shift+down", "command": "workbench.action.navigateDown" },
+
+    // make "enter" open files from explorer instead of rename
+    { "key": "enter", "command": "explorer.openToSide",
+    "when": "explorerViewletFocus && explorerViewletVisible && !inputFocus" },
+    { "key": "ctrl+enter", "command": "renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus" },
+    { "key": "alt+;", "command": "editor.action.commentLine",
+    "when": "editorTextFocus && !editorReadonly" },
+    
+    /* TODO: figure out why this doesnt work, also horizontal split in terminal
+    {
+        "key": "ctrl+x k",
+        "command": "workbench.action.terminal.kill",
+        "when": "terminalFocus"
+    } */
+]

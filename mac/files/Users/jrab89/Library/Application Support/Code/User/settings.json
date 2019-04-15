@@ -1,7 +1,40 @@
 {
-    "[ruby]": {
-        "editor.tabSize": 2
+    // general
+    "files.trimTrailingWhitespace": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "window.restoreWindows": "all",
+    "window.restoreFullscreen": true,
+    "editor.minimap.enabled": false,
+    "editor.scrollbar.verticalScrollbarSize": 0,
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.activityBar.visible": false,
+    "editor.renderWhitespace": "none",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.pyc": true
     },
+
+    // terminal
+    "terminal.integrated.experimentalRestore": true,
+    "terminal.integrated.macOptionIsMeta": true,
+
+    // ruby
+    "ruby.lint": {
+        "rubocop": true
+    },
+    // TODO
+    // "ruby.codeCompletion"
+    // "ruby.intellisense"
+    // "ruby.useBundler"
+    // "ruby.rctComplete.commandPath"
+    // "ruby.useLanguageServer"
+
+    // python
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true
