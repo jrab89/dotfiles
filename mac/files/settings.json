@@ -16,7 +16,10 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/*.pyc": true
+        "**/*.pyc": true,
+        "**/__pycache__": true,
+        ".mypy_cache": true,
+        "*.egg-info": true
     },
 
     // terminal
