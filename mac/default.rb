@@ -83,7 +83,8 @@ GO_PACKAGES = ['github.com/kisielk/errcheck',
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'ms-python.python',
                      'rebornix.ruby',
-                     'timonwong.shellcheck']
+                     'timonwong.shellcheck',
+                     'mauve.terraform']
 
 execute 'disable homebrew analytics' do
   command 'brew analytics off'

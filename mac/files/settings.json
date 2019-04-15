@@ -21,6 +21,7 @@
         ".mypy_cache": true,
         "*.egg-info": true
     },
+    "workbench.colorTheme": "Default Dark+",
 
     // terminal
     "terminal.integrated.experimentalRestore": true,
