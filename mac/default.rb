@@ -82,7 +82,8 @@ GO_PACKAGES = ['github.com/kisielk/errcheck',
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'ms-python.python',
-                     'rebornix.ruby']
+                     'rebornix.ruby',
+                     'timonwong.shellcheck']
 
 execute 'disable homebrew analytics' do
   command 'brew analytics off'
