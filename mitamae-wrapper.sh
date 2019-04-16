@@ -19,4 +19,4 @@ if ! [ -f "${script_dir}/mitamae" ]; then
     mv /tmp/mitamae "$script_dir"
 fi
 
-exec "$script_dir/mitamae" local "$script_dir/mac/default.rb"
+exec "$script_dir/mitamae" "$@"
