@@ -35,9 +35,8 @@ USER = run_command('whoami').stdout.chomp
 LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
 
 PACKAGES = ['awscli',
-            'cloc',
             'chruby',
-            'ruby-install',
+            'cloc',
             'docker-compose',
             'git',
             'go',
@@ -50,11 +49,12 @@ PACKAGES = ['awscli',
             'p7zip',
             'python',
             'python3',
+            'ruby-install',
             'ruby',
             'shellcheck',
+            'the_silver_searcher',
             # TODO: install terraform 0.11.7
             # 'terraform',
-            'the_silver_searcher',
             'tree',
             'vim']
 
@@ -67,24 +67,25 @@ CASKS = ['battle-net',
          'iterm2',
          'java8',
          'licecap',
+         'openemu',
          'slack',
          'steam',
          'transmission',
          'vagrant',
-         'vscodium',
-         'virtualbox',
          'virtualbox-extension-pack',
-         'vlc']
+         'virtualbox',
+         'vlc',
+         'vscodium']
 
 GO_PACKAGES = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
                'github.com/rogpeppe/godef']
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
+                     'mauve.terraform',
                      'ms-python.python',
                      'rebornix.ruby',
-                     'timonwong.shellcheck',
-                     'mauve.terraform']
+                     'timonwong.shellcheck']
 
 execute 'disable homebrew analytics' do
   command 'brew analytics off'
