@@ -33,6 +33,7 @@ end
 
 USER = run_command('whoami').stdout.chomp
 LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
+MAC_DIR = File.expand_path(File.dirname(__FILE__))
 
 PACKAGES = ['awscli',
             'chruby',
@@ -55,7 +56,7 @@ PACKAGES = ['awscli',
             # TODO: install terraform 0.11.7
             # 'terraform',
             'tree',
-            'vim']
+            'vim'].freeze
 
 CASKS = ['battle-net',
          'blender',
@@ -74,17 +75,17 @@ CASKS = ['battle-net',
          'virtualbox-extension-pack',
          'virtualbox',
          'vlc',
-         'vscodium']
+         'vscodium'].freeze
 
 GO_PACKAGES = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
-               'github.com/rogpeppe/godef']
+               'github.com/rogpeppe/godef'].freeze
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'mauve.terraform',
                      'ms-python.python',
                      'rebornix.ruby',
-                     'timonwong.shellcheck']
+                     'timonwong.shellcheck'].freeze
 
 execute 'disable homebrew analytics' do
   command 'brew analytics off'
@@ -98,11 +99,30 @@ VSCODE_EXENTSIONS.each { |extension_name| vscode_exentsion extension_name }
 
 ruby_install LATEST_RUBY_VERSION
 
-remote_file "/Users/#{USER}/.pryrc"
-remote_file "/Users/#{USER}/.psqlrc"
-remote_file "/Users/#{USER}/.vimrc"
-remote_file "/Users/#{USER}/Library/Application Support/VSCodium/User/settings.json"
-remote_file "/Users/#{USER}/Library/Application Support/VSCodium/User/keybindings.json"
+link "/Users/#{USER}/.pryrc" do
+  to "#{MAC_DIR}/files/.pryrc"
+  force true
+end
+
+link "/Users/#{USER}/.psqlrc" do
+  to "#{MAC_DIR}/files/.psqlrc"
+  force true
+end
+
+link "/Users/#{USER}/.vimrc" do
+  to "#{MAC_DIR}/files/.vimrc"
+  force true
+end
+
+link "/Users/#{USER}/Library/Application Support/VSCodium/User/settings.json" do
+  to "#{MAC_DIR}/files/settings.json"
+  force true
+end
+
+link "/Users/#{USER}/Library/Application Support/VSCodium/User/keybindings.json" do
+  to "#{MAC_DIR}/files/keybindings.json"
+  force true
+end
 
 template "/Users/#{USER}/.zshrc" do
   variables(ruby_version: LATEST_RUBY_VERSION)
