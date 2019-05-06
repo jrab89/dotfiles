@@ -104,6 +104,11 @@ link "/Users/#{USER}/.pryrc" do
   force true
 end
 
+link "/Users/#{USER}/.pgpass" do
+  to "#{MAC_DIR}/files/.pgpass"
+  force true
+end
+
 link "/Users/#{USER}/.psqlrc" do
   to "#{MAC_DIR}/files/.psqlrc"
   force true
