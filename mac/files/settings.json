@@ -21,12 +21,9 @@
         ".mypy_cache": true,
         "*.egg-info": true
     },
-    "workbench.colorTheme": "Default Dark+",
-
     // terminal
     "terminal.integrated.experimentalRestore": true,
     "terminal.integrated.macOptionIsMeta": true,
-
     // ruby
     "ruby.lint": {
         "rubocop": true
@@ -37,9 +34,15 @@
     // "ruby.useBundler"
     // "ruby.rctComplete.commandPath"
     // "ruby.useLanguageServer"
-
     // python
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.mypyEnabled": true
+    "python.linting.mypyEnabled": true,
+    // go
+    "[go]": {
+        "editor.formatOnSave": true,
+    },
+    "go.useLanguageServer": true,
+    "go.formatTool": "goimports",
+    "go.autocompleteUnimportedPackages": true
 }

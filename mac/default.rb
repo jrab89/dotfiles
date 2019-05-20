@@ -10,8 +10,8 @@ end
 define :go_package do
   package = params[:name]
   execute "install go package #{package}" do
-    command "go get '#{package}'"
-    not_if "go list all | grep #{package}"
+    command "GO111MODULE=off go get '#{package}'"
+    not_if "GO111MODULE=off go list all | grep #{package}"
   end
 end
 
@@ -36,6 +36,7 @@ LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/po
 MAC_DIR = File.expand_path(File.dirname(__FILE__))
 
 PACKAGES = ['awscli',
+            'bat',
             'chruby',
             'cloc',
             'docker-compose',
@@ -79,12 +80,17 @@ CASKS = ['battle-net',
 
 GO_PACKAGES = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
-               'github.com/rogpeppe/godef'].freeze
+               'github.com/rogpeppe/godef',
+               # goreturns doesn't work with modules yet?
+               # 'github.com/sqs/goreturns',
+               'golang.org/x/tools/cmd/goimports',
+               'golang.org/x/tools/cmd/gopls'].freeze
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'mauve.terraform',
                      'ms-python.python',
                      'rebornix.ruby',
+                     'ms-vscode.Go',
                      'timonwong.shellcheck'].freeze
 
 execute 'disable homebrew analytics' do
