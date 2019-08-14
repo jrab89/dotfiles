@@ -10,6 +10,9 @@
     "workbench.colorTheme": "Default Dark+",
     "workbench.activityBar.visible": false,
     "editor.renderWhitespace": "none",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#0f0f0f"
+    },
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -27,6 +30,9 @@
     // ruby
     "ruby.lint": {
         "rubocop": true
+    },
+    "[ruby]": {
+        "editor.tabSize": 2
     },
     // TODO
     // "ruby.codeCompletion"

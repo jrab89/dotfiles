@@ -11,6 +11,7 @@ define :go_package do
   package = params[:name]
   execute "install go package #{package}" do
     command "GO111MODULE=off go get '#{package}'"
+    # TODO: maybe instead look at ~/go/bin ?
     not_if "GO111MODULE=off go list all | grep #{package}"
   end
 end
