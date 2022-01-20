@@ -2,25 +2,25 @@
 define :cask do
   cask_name = params[:name]
   execute "install #{cask_name}" do
-    command "brew cask install '#{cask_name}'"
+    command "brew install --cask '#{cask_name}'"
     not_if "test -e $(brew --prefix)/Caskroom/#{cask_name}"
   end
 end
 
 define :go_package do
   package = params[:name]
+  package_executable = package.split('/').last
   execute "install go package #{package}" do
-    command "GO111MODULE=off go get '#{package}'"
-    # TODO: maybe instead look at ~/go/bin ?
-    not_if "GO111MODULE=off go list all | grep #{package}"
+    command "go get '#{package}'"
+    not_if "stat ~/go/bin/#{package_executable}"
   end
 end
 
 define :vscode_exentsion do
   extension = params[:name]
   execute "installing vscode extension #{extension}" do
-    command "vscodium --install-extension #{extension}"
-    not_if "vscodium --list-extensions | grep #{extension}"
+    command "codium --install-extension #{extension}"
+    not_if "codium --list-extensions | grep #{extension}"
   end
 end
 
@@ -49,14 +49,15 @@ PACKAGES = ['awscli',
             'jq',
             'mysql',
             'node',
+            'openjdk',
             'p7zip',
-            'python',
+            'pyenv',
             'ruby-install',
             'ruby',
+            'rustup-init',
             'shellcheck',
             'the_silver_searcher',
-            # TODO: install terraform 0.11.7
-            # 'terraform',
+            'warrensbox/tap/tfswitch',
             'tree',
             'vim'].freeze
 
@@ -67,7 +68,6 @@ CASKS = ['battle-net',
          'emacs',
          'gimp',
          'iterm2',
-         'java8',
          'licecap',
          'openemu',
          'slack',
@@ -82,13 +82,12 @@ CASKS = ['battle-net',
 GO_PACKAGES = ['github.com/kisielk/errcheck',
                'github.com/nsf/gocode',
                'github.com/rogpeppe/godef',
-               # goreturns doesn't work with modules yet?
-               # 'github.com/sqs/goreturns',
-               'golang.org/x/tools/cmd/goimports',
-               'golang.org/x/tools/cmd/gopls'].freeze
+               'github.com/sqs/goreturns',
+               'golang.org/x/tools/goimports',
+               'golang.org/x/tools/gopls'].freeze
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
-                     'mauve.terraform',
+                     'hashicorp.terraform',
                      'ms-python.python',
                      'rebornix.ruby',
                      'ms-vscode.Go',
@@ -137,5 +136,5 @@ link "/Users/#{USER}/Library/Application Support/VSCodium/User/keybindings.json"
 end
 
 template "/Users/#{USER}/.zshrc" do
-  variables(ruby_version: LATEST_RUBY_VERSION)
+  variables ruby_version: LATEST_RUBY_VERSION
 end

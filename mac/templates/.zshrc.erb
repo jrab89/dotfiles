@@ -26,6 +26,9 @@ alias k=kubectl
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
+# Homebrew won't link openjdk because it conflicts with macOS software
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
 export PGUSER=postgres
 
 # https://github.com/rails/spring#environment-variables
@@ -43,4 +46,10 @@ complete -o nospace -C terraform terraform
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 source /usr/local/opt/chruby/share/chruby/auto.sh
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 chruby '<%= @ruby_version %>'
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"

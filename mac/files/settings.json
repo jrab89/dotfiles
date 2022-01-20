@@ -11,7 +11,7 @@
     "workbench.activityBar.visible": false,
     "editor.renderWhitespace": "none",
     "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#0f0f0f"
+        "editor.lineHighlightBackground": "#582525"
     },
     "files.exclude": {
         "**/.git": true,
@@ -22,7 +22,11 @@
         "**/*.pyc": true,
         "**/__pycache__": true,
         ".mypy_cache": true,
-        "*.egg-info": true
+        "*.egg-info": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
     },
     // terminal
     "terminal.integrated.experimentalRestore": true,
@@ -50,5 +54,14 @@
     },
     "go.useLanguageServer": true,
     "go.formatTool": "goimports",
-    "go.autocompleteUnimportedPackages": true
+    "go.autocompleteUnimportedPackages": true,
+    "breadcrumbs.enabled": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "rust-client.rustupPath": "/Users/jeff.rabovsky/.cargo/bin/rustup",
+    "rust-client.enableMultiProjectSetup": true,
+    "rust-client.engine": "rust-analyzer",
+    "workbench.editor.untitled.hint": "hidden",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "workbench.startupEditor": "none",
+    "window.zoomLevel": -1
 }
