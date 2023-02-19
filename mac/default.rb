@@ -7,15 +7,6 @@ define :cask do
   end
 end
 
-define :go_package do
-  package = params[:name]
-  package_executable = package.split('/').last
-  execute "install go package #{package}" do
-    command "go get '#{package}'"
-    not_if "stat ~/go/bin/#{package_executable}"
-  end
-end
-
 define :vscode_exentsion do
   extension = params[:name]
   execute "installing vscode extension #{extension}" do
@@ -35,6 +26,11 @@ end
 USER = run_command('whoami').stdout.chomp
 LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
 MAC_DIR = File.expand_path(File.dirname(__FILE__))
+
+# TODO: determine latest python version and install it with pyenv
+LATEST_PYTHON_VERSION = run_command("curl -sS 'https://api.github.com/repos/python/cpython/tags?per_page=100'")
+
+# TODO: use asdf instead of language specific tools
 
 PACKAGES = ['awscli',
             'bat',
@@ -79,18 +75,9 @@ CASKS = ['battle-net',
          'vlc',
          'vscodium'].freeze
 
-GO_PACKAGES = ['github.com/kisielk/errcheck',
-               'github.com/nsf/gocode',
-               'github.com/rogpeppe/godef',
-               'github.com/sqs/goreturns',
-               'golang.org/x/tools/goimports',
-               'golang.org/x/tools/gopls'].freeze
-
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'hashicorp.terraform',
                      'ms-python.python',
-                     'rebornix.ruby',
-                     'ms-vscode.Go',
                      'timonwong.shellcheck'].freeze
 
 execute 'disable homebrew analytics' do
@@ -100,7 +87,6 @@ end
 
 PACKAGES.each { |package_name| package package_name }
 CASKS.each { |cask_name| cask cask_name }
-GO_PACKAGES.each { |package_name| go_package package_name }
 VSCODE_EXENTSIONS.each { |extension_name| vscode_exentsion extension_name }
 
 ruby_install LATEST_RUBY_VERSION

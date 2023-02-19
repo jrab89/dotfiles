@@ -7,11 +7,10 @@
     "window.restoreFullscreen": true,
     "editor.minimap.enabled": false,
     "editor.scrollbar.verticalScrollbarSize": 0,
-    "workbench.colorTheme": "Default Dark+",
     "workbench.activityBar.visible": false,
     "editor.renderWhitespace": "none",
     "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#582525"
+        "editor.lineHighlightBackground": "#3e3434"
     },
     "files.exclude": {
         "**/.git": true,
@@ -44,24 +43,15 @@
     // "ruby.useBundler"
     // "ruby.rctComplete.commandPath"
     // "ruby.useLanguageServer"
+
     // python
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
-    // go
-    "[go]": {
-        "editor.formatOnSave": true,
-    },
-    "go.useLanguageServer": true,
-    "go.formatTool": "goimports",
-    "go.autocompleteUnimportedPackages": true,
-    "breadcrumbs.enabled": true,
-    "editor.multiCursorModifier": "ctrlCmd",
-    "rust-client.rustupPath": "/Users/jeff.rabovsky/.cargo/bin/rustup",
-    "rust-client.enableMultiProjectSetup": true,
-    "rust-client.engine": "rust-analyzer",
+    "python.languageServer": "Pylance",
+    "python.analysis.typeCheckingMode": "strict",
+
     "workbench.editor.untitled.hint": "hidden",
     "terminal.integrated.defaultProfile.osx": "zsh",
-    "workbench.startupEditor": "none",
-    "window.zoomLevel": -1
+    "workbench.startupEditor": "none"
 }
