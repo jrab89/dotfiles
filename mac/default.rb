@@ -1,3 +1,5 @@
+# TODO: installation of Homebrew and oh-my-zsh is manual
+
 # TODO: use https://github.com/k0kubun/itamae-plugin-resource-cask ?
 define :cask do
   cask_name = params[:name]
@@ -10,8 +12,8 @@ end
 define :vscode_exentsion do
   extension = params[:name]
   execute "installing vscode extension #{extension}" do
-    command "codium --install-extension #{extension}"
-    not_if "codium --list-extensions | grep #{extension}"
+    command "code --install-extension #{extension}"
+    not_if "code --list-extensions | grep #{extension}"
   end
 end
 
@@ -50,6 +52,7 @@ PACKAGES = ['awscli',
             'pyenv',
             'ruby-install',
             'ruby',
+            'kubernetes-cli',
             'rustup-init',
             'shellcheck',
             'the_silver_searcher',
@@ -70,10 +73,10 @@ CASKS = ['battle-net',
          'steam',
          'transmission',
          'vagrant',
-         'virtualbox-extension-pack',
-         'virtualbox',
+         # 'virtualbox-extension-pack',
+         # 'virtualbox',
          'vlc',
-         'vscodium'].freeze
+         'visual-studio-code'].freeze
 
 VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
                      'hashicorp.terraform',
@@ -111,12 +114,12 @@ link "/Users/#{USER}/.vimrc" do
   force true
 end
 
-link "/Users/#{USER}/Library/Application Support/VSCodium/User/settings.json" do
+link "/Users/#{USER}/Library/Application Support/Code/User/settings.json" do
   to "#{MAC_DIR}/files/settings.json"
   force true
 end
 
-link "/Users/#{USER}/Library/Application Support/VSCodium/User/keybindings.json" do
+link "/Users/#{USER}/Library/Application Support/Code/User/keybindings.json" do
   to "#{MAC_DIR}/files/keybindings.json"
   force true
 end

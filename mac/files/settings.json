@@ -1,14 +1,13 @@
 {
     // general
+    "telemetry.telemetryLevel": "off",
     "files.trimTrailingWhitespace": true,
-    "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false,
     "window.restoreWindows": "all",
     "window.restoreFullscreen": true,
     "editor.minimap.enabled": false,
     "editor.scrollbar.verticalScrollbarSize": 0,
     "workbench.activityBar.visible": false,
-    "editor.renderWhitespace": "none",
+    "editor.renderWhitespace": "selection",
     "workbench.colorCustomizations": {
         "editor.lineHighlightBackground": "#3e3434"
     },
@@ -28,12 +27,9 @@
         "**/.factorypath": true
     },
     // terminal
-    "terminal.integrated.experimentalRestore": true,
     "terminal.integrated.macOptionIsMeta": true,
+
     // ruby
-    "ruby.lint": {
-        "rubocop": true
-    },
     "[ruby]": {
         "editor.tabSize": 2
     },
