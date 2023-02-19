@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
-mitamae_version='1.7.5'
-mitamae_darwin_sha256='89d6de16fe1398281c1d46c28274d3ab14203f41605f9f5c9863773fc0af9ef8'
+mitamae_version='1.14.0'
+mitamae_darwin_sha256='818d47ef5ea9d5404e248ec87d3088d9447d1a6f53b611eb3dea07b53133fcb5'
 script_dir=$(dirname "$0")
 
 if ! [ -f "${script_dir}/mitamae" ]; then
