@@ -25,12 +25,21 @@ define :ruby_install do
   end
 end
 
+define :pyenv_install do
+  version = params[:name]
+  execute "installing python #{version}" do
+    command "pyenv install '#{version}'"
+    not_if "test -e $HOME/.pyenv/versions/#{version}"
+  end
+end
+
 USER = run_command('whoami').stdout.chomp
 LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
 MAC_DIR = File.expand_path(File.dirname(__FILE__))
-
-# TODO: determine latest python version and install it with pyenv
-LATEST_PYTHON_VERSION = run_command("curl -sS 'https://api.github.com/repos/python/cpython/tags?per_page=100'")
+LATEST_PYTHON_VERSION = JSON.parse(run_command("curl -sS 'https://api.github.com/repos/python/cpython/tags'").stdout)
+                            .map{|tag| tag["name"] }
+                            .select {|name| name =~ /\d+\.\d+\.\d+$/ }
+                            .first[1..]
 
 # TODO: use asdf instead of language specific tools
 
@@ -64,6 +73,7 @@ CASKS = ['battle-net',
          'blender',
          'caffeine',
          'docker',
+         'epic-games',
          'emacs',
          'gimp',
          'iterm2',
@@ -93,6 +103,7 @@ CASKS.each { |cask_name| cask cask_name }
 VSCODE_EXENTSIONS.each { |extension_name| vscode_exentsion extension_name }
 
 ruby_install LATEST_RUBY_VERSION
+pyenv_install LATEST_PYTHON_VERSION
 
 link "/Users/#{USER}/.pryrc" do
   to "#{MAC_DIR}/files/.pryrc"
@@ -125,5 +136,6 @@ link "/Users/#{USER}/Library/Application Support/Code/User/keybindings.json" do
 end
 
 template "/Users/#{USER}/.zshrc" do
-  variables ruby_version: LATEST_RUBY_VERSION
+  variables ruby_version: LATEST_RUBY_VERSION,
+            python_version: LATEST_PYTHON_VERSION
 end

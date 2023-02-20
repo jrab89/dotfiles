@@ -49,6 +49,7 @@ source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 export PATH="$HOME/.cargo/bin:$PATH"
 
 chruby '<%= @ruby_version %>'
+pyenv global '<%= @python_version %>'
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
