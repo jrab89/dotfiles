@@ -23,11 +23,58 @@
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus" },
     { "key": "alt+;", "command": "editor.action.commentLine",
     "when": "editorTextFocus && !editorReadonly" },
-    
+
     /* TODO: figure out why this doesnt work, also horizontal split in terminal
     {
         "key": "ctrl+x k",
         "command": "workbench.action.terminal.kill",
         "when": "terminalFocus"
     } */
+
+
+    // ShowHover without mouse
+    {
+        "key": "ctrl+f",
+        "command": "runCommands",
+        "args": {
+          "commands": [
+            "cursorRight",
+            "editor.action.showHover"
+          ]
+        },
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "runCommands",
+        "args": {
+          "commands": [
+            "cursorLeft",
+            "editor.action.showHover"
+          ]
+        },
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "runCommands",
+        "args": {
+          "commands": [
+            "cursorDown",
+            "editor.action.showHover"
+          ]
+        },
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "runCommands",
+        "args": {
+          "commands": [
+            "cursorUp",
+            "editor.action.showHover"
+          ]
+        },
+        "when": "editorFocus"
+    }
 ]

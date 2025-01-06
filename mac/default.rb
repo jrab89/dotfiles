@@ -37,60 +37,48 @@ USER = run_command('whoami').stdout.chomp
 LATEST_RUBY_VERSION = run_command('curl -sS https://raw.githubusercontent.com/postmodern/ruby-versions/master/ruby/stable.txt | tail -n 1').stdout.chomp
 MAC_DIR = File.expand_path(File.dirname(__FILE__))
 LATEST_PYTHON_VERSION = JSON.parse(run_command("curl -sS 'https://api.github.com/repos/python/cpython/tags'").stdout)
-                            .map{|tag| tag["name"] }
-                            .select {|name| name =~ /\d+\.\d+\.\d+$/ }
-                            .first[1..]
+                            .map{ |tag| tag["name"] }
+                            .select { |name| name =~ /\d+\.\d+\.\d+$/ }
+                            .map { |name| name.gsub("v", "") }
+                            .sort
+                            .reverse
+                            .first
 
-# TODO: use asdf instead of language specific tools
+# TODO: use asdf (or what https://omakub.org/ uses?) instead of language specific tools
 
 PACKAGES = ['awscli',
             'bat',
             'chruby',
             'cloc',
             'docker-compose',
+            'docker',
             'git',
             'go',
             'graphviz',
             'htop',
             'ispell',
             'jq',
+            'kubernetes-cli',
             'mysql',
             'node',
             'openjdk',
             'p7zip',
+            'pipx',
             'pyenv',
             'ruby-install',
             'ruby',
-            'kubernetes-cli',
-            'rustup-init',
             'shellcheck',
             'the_silver_searcher',
-            'warrensbox/tap/tfswitch',
-            'tree',
-            'vim'].freeze
+            'tree'].freeze
 
-CASKS = ['battle-net',
-         'blender',
-         'caffeine',
-         'docker',
-         'epic-games',
-         'emacs',
-         'gimp',
-         'iterm2',
+CASKS = ['caffeine',
+         'ghostty',
          'licecap',
-         'openemu',
-         'slack',
-         'steam',
-         'transmission',
-         'vagrant',
-         # 'virtualbox-extension-pack',
-         # 'virtualbox',
-         'vlc',
          'visual-studio-code'].freeze
 
-VSCODE_EXENTSIONS = ['lfs.vscode-emacs-friendly',
-                     'hashicorp.terraform',
-                     'ms-python.python',
+VSCODE_EXENTSIONS = ['golang.go',
+                     'lfs.vscode-emacs-friendly',
+                     'ms-python.vscode-pylance',
                      'timonwong.shellcheck'].freeze
 
 execute 'disable homebrew analytics' do

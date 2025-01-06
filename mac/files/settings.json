@@ -1,16 +1,17 @@
 {
     // general
     "telemetry.telemetryLevel": "off",
-    "files.trimTrailingWhitespace": true,
+    "workbench.editor.showTabs": "none",
+    "files.trimTrailingWhitespace": false,
     "window.restoreWindows": "all",
     "window.restoreFullscreen": true,
     "editor.minimap.enabled": false,
     "editor.scrollbar.verticalScrollbarSize": 0,
-    "workbench.activityBar.visible": false,
-    "editor.renderWhitespace": "selection",
+    "editor.renderWhitespace": "trailing",
     "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#3e3434"
+        "editor.lineHighlightBackground": "#663131"
     },
+    "editor.rulers": [79],
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -33,21 +34,34 @@
     "[ruby]": {
         "editor.tabSize": 2
     },
-    // TODO
-    // "ruby.codeCompletion"
-    // "ruby.intellisense"
-    // "ruby.useBundler"
-    // "ruby.rctComplete.commandPath"
-    // "ruby.useLanguageServer"
+
+    // shell
+    "[shellscript]":{
+        "editor.tabSize": 2
+    },
 
     // python
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
     "python.languageServer": "Pylance",
-    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.typeCheckingMode": "basic",
 
-    "workbench.editor.untitled.hint": "hidden",
     "terminal.integrated.defaultProfile.osx": "zsh",
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+
+    "editor.largeFileOptimizations": false,
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.activityBar.location": "hidden",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.stickyScroll.enabled": false,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "editor.accessibilitySupport": "off",
+    "window.customTitleBarVisibility": "windowed",
+    "window.commandCenter": false,
+
+    // use SSH keys for Github auth, don't prompt for user/password
+    "github.gitAuthentication": false,
+    "git.terminalAuthentication": false
 }
